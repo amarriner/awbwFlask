@@ -8,7 +8,7 @@ import json
 Base = declarative_base()
 
 class UnitType(Base):
-   __tablename__ = 'unit_types'
+   __tablename__ = 'awbw_unit_types'
 
    id = Column(Integer, primary_key=True)
    name = Column(String(40), nullable=False)
