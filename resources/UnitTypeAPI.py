@@ -2,8 +2,8 @@
 
 from flask.ext import restful
 
-from alchemy.AlchemyDB import AlchemyDB
-from alchemy.UnitType import UnitType
+from awbwFlask.resources.alchemy.AlchemyDB import AlchemyDB
+from awbwFlask.resources.alchemy.UnitType import UnitType
 
 class UnitType_EP(restful.Resource):
 

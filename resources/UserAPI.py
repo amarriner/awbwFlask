@@ -2,8 +2,8 @@
 
 from flask.ext import restful
 
-from alchemy.AlchemyDB import AlchemyDB
-from alchemy.User import User
+from awbwFlask.resources.alchemy.AlchemyDB import AlchemyDB
+from awbwFlask.resources.alchemy.User import User
 
 class User_EP(restful.Resource):
 
@@ -17,6 +17,10 @@ class User_EP(restful.Resource):
 
    def post(self):
       args = self.reqparse.parse_args()
+
+      user = self.adb.session.query(User).filter(User.username == args['username'])
+      if user:
+         restful.abort(400, message="User {} already exists".format(args['username']))
 
       user = User(username=args['username'])
       user.hash_password(args['password'])

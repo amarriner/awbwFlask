@@ -1,6 +1,6 @@
 #!/home1/amarrine/python/bin/python
 
-import passwd
+import awbwFlask.resources.alchemy.passwd as passwd
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
