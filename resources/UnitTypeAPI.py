@@ -43,6 +43,7 @@ class UnitType_EP(restful.Resource):
              )   
       
       self.adb.session.add(unit_type)
+      self.adb.session.commit()
       return unit_type.json(), 201
 
 class UnitType_ID_EP(restful.Resource):
