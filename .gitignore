@@ -2,3 +2,4 @@ __pycache__
 *.pyc
 passwd.py*
 keys.py*
+db.ini
