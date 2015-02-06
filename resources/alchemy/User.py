@@ -26,7 +26,7 @@ class User(Base):
    def json(self):
       return {
          "id"              : self.id,
-         "name"            : self.name
+         "username"        : self.username
       }
 
    def hash_password(self, password):
