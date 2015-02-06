@@ -21,3 +21,6 @@ class AlchemyDB():
       self.engine = create_engine('mysql+mysqldb://' + self.username + ':' + self.pwd + '@' + self.host + '/' + self.database, echo=True).connect()
 
       self.session = sessionmaker(bind=self.engine)()
+
+   def __del__(self):
+      self.engine.disconnect()
