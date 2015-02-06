@@ -26,7 +26,7 @@ class UnitType_EP(restful.Resource):
       for u in self.adb.session.query(UnitType):
          unit_types.append(u.json())
 
-      return unit_types
+      return unit_types, 200
 
    def post(self):
       args = self.reqparse.parse_args()
@@ -70,13 +70,13 @@ class UnitType_ID_EP(restful.Resource):
    def get(self, id):
       self.abort_if_not_exists(id)
 
-      return self.unit_type.json()
+      return self.unit_type.json(), 200
 
    def delete(self, id):
       self.abort_if_not_exists(id)
       self.adb.session.delete(self.unit_type)
       self.adb.session.commit()
-      return { "message": "UnitType " + str(id) + " deleted"}, 204
+      return { "message": "UnitType " + str(id) + " deleted"}, 200
 
    def put(self, id):
       args = self.reqparse.parse_args()
@@ -92,7 +92,7 @@ class UnitType_ID_EP(restful.Resource):
       self.unit_type.cost            = args['cost']            if args['cost']            else self.unit_type.cost
 
       self.adb.session.commit()
-      return self.unit_type.json(), 201
+      return self.unit_type.json(), 200
 
 if __name__ == '__main__':
    app.run(debug=True)
