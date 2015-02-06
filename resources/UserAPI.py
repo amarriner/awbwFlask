@@ -5,6 +5,8 @@ from flask.ext import restful
 from awbwFlask.resources.alchemy.AlchemyDB import AlchemyDB
 from awbwFlask.resources.alchemy.User import User
 
+from awbwFlask.common.variables import headers
+
 class User_EP(restful.Resource):
 
    adb = AlchemyDB()
@@ -20,7 +22,7 @@ class User_EP(restful.Resource):
 
       user = self.adb.session.query(User).filter(User.username == args['username'])
       if user:
-         restful.abort(400, message="User {} already exists".format(args['username']))
+         restful.abort(400, message="User {} already exists".format(args['username']), headers=headers)
 
       user = User(username=args['username'])
       user.hash_password(args['password'])
@@ -28,7 +30,7 @@ class User_EP(restful.Resource):
       self.adb.session.add(user)
       self.adb.session.commit()
 
-      return user.json(), 201
+      return user.json(), 201, headers
 
 class User_ID_EP(restful.Resource):
 
@@ -42,19 +44,19 @@ class User_ID_EP(restful.Resource):
    def abort_if_not_exists(self, id):
       self.user = self.adb.session.query(User).get(id)
       if not self.user:
-         restful.abort(404, message="User with ID {} does not exist".format(id))
+         restful.abort(404, message="User with ID {} does not exist".format(id), headers=headers)
 
    def get(self, id):
       self.abort_if_not_exists(id)
 
-      return self.user.json(), 200
+      return self.user.json(), 200, headers
 
    def put(self, id):
       args = self.reqparse.parse_args()
       self.abort_if_not_exists(id)
 
       self.adb.session.commit()
-      return self.user.json(), 200
+      return self.user.json(), 200, headers
 
 if __name__ == '__main__':
    app.run(debug=True)
