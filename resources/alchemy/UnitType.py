@@ -19,6 +19,10 @@ class UnitType(Base):
    short_range = Column(Integer, nullable=False)
    long_range = Column(Integer, nullable=False)
    cost = Column(Integer, nullable=False)
+   fuel = Column(Integer, nullable=False)
+   fuel_per_turn = Column(Integer, nullable=False)
+   second_weapon = Column(Integer, nullable=False)
+   symbol = Column(String(1), nullable=False) 
 
    meta = MetaData()
 
@@ -32,11 +36,16 @@ class UnitType(Base):
       return {
          "id"              : self.id,
          "name"            : self.name,
-         "movement_points" : self.movement_points if self.movement_points != None else '',
-         "movement_type"   : self.movement_type if self.movement_type != None else '',
+         "movementPoints"  : self.movement_points if self.movement_points != None else '',
+         "movementType"    : self.movement_type if self.movement_type != None else '',
          "ammo"            : self.ammo if self.ammo != None else '',
          "vision"          : self.vision if self.vision != None else '',
-         "short_range"     : self.short_range if self.short_range != None else '',
-         "long_range"      : self.long_range if self.long_range != None else '',
-         "cost"            : self.cost if self.cost != None else ''
+         "shortRange"      : self.short_range if self.short_range != None else '',
+         "longRange"       : self.long_range if self.long_range != None else '',
+         "cost"            : self.cost if self.cost != None else '',
+         "fuel"            : self.fuel if self.fuel != None else '',
+         "fuelPerTurn"     : self.fuel_per_turn if self.fuel_per_turn != None else '',
+         "secondWeapon"    : self.second_weapon if self.second_weapon != None else '',
+         "sybmol"          : self.symbol if self.symbol != None else ''
       }
+
