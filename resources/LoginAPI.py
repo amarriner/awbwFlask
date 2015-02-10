@@ -32,7 +32,7 @@ class Login_EP(restful.Resource):
       if not user.verify_password(args['password']):
          return {"message": "Invalid password for user {}".format(args['username'])}, 403, headers
 
-      return {"token": user.generate_auth_token()}, 200, headers
+      return {"username": user.username, "token": user.generate_auth_token()}, 200, headers
 
 if __name__ == '__main__':
    app.run(debug=True)
