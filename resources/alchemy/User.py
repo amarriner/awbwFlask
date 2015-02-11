@@ -42,7 +42,7 @@ class User(Base):
       Config.read('db.ini')
       
       s = Serializer(Config.get('Authorization', 'Secret'), expires_in = expiration)
-      return s.dumps({ "id": self.id })
+      return s.dumps({ "id": self.id, "username": self.username })
 
    @staticmethod
    def verify_auth_token(token):
@@ -57,4 +57,4 @@ class User(Base):
       except BadSignature:
          return None
 
-      return data['id']
+      return data
