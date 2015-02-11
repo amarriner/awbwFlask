@@ -1,6 +1,6 @@
 AddHandler fcgid-script .fcgi
 Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Awbw-Token"
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ api.fcgi/$1 [QSA,L]
