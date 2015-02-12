@@ -4,14 +4,10 @@ from __future__ import print_function
 
 from flask.ext import restful
 
-from awbwFlask.resources.alchemy.AlchemyDB import AlchemyDB
+from awbwFlask.common.AlchemyDB import adb
 from awbwFlask.resources.alchemy.User import User
 
-from awbwFlask.common.variables import headers
-
 class Login_EP(restful.Resource):
-
-   adb = AlchemyDB()
 
    def __init__(self):
       self.reqparse = restful.reqparse.RequestParser()
@@ -21,7 +17,7 @@ class Login_EP(restful.Resource):
       super(Login_EP, self).__init__()
 
    def get(self):
-      return {"message": "invalid"}, 400, headers
+      return {"message": "invalid"}, 400
 
    def post(self):
       args = self.reqparse.parse_args()
@@ -30,24 +26,24 @@ class Login_EP(restful.Resource):
          token_data = User.verify_auth_token(args['Awbw-Token'])
 
          if not token_data:
-            return {"message": "Invalid user token"}, 401, headers
+            return {"message": "Invalid user token"}, 401
  
-         user = self.adb.session.query(User).get(token_data["id"])
+         user = adb.session.query(User).get(token_data["id"])
          message = "Logged in with token"
 
       else:
 
-         user = self.adb.session.query(User).filter(User.username == args['username']).first()
+         user = adb.session.query(User).filter(User.username == args['username']).first()
 
          if not user:
-            return {"message": "Login with username {} does not exist".format(args['username'])}, 404, headers
+            return {"message": "Login with username {} does not exist".format(args['username'])}, 404
 
          if not user.verify_password(args['password']):
-            return {"message": "Invalid password for user {}".format(args['username'])}, 403, headers
+            return {"message": "Invalid password for user {}".format(args['username'])}, 403
 
          message = "Logged in with credentials"
 
-      return {"message": message, "username": user.username, "token": user.generate_auth_token()}, 200, headers
+      return {"message": message, "username": user.username, "token": user.generate_auth_token()}, 200
 
 if __name__ == '__main__':
    app.run(debug=True)
