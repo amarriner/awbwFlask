@@ -1,8 +1,8 @@
-#!/home1/amarrine/python/bin/python
+#!/usr/bin/env python
 
 import sys
 
-sys.path.append('/home1/amarrine/python/projects')
+sys.path.append('/home/amarriner/awbwFlask')
 
 from flask import Flask, request
 from flask.ext.restful import abort, Api, Resource, reqparse

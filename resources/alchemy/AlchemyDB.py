@@ -1,4 +1,4 @@
-#!/home1/amarrine/python/bin/python
+#!/usr/bin/env python
 
 import awbwFlask.resources.alchemy.passwd as passwd
 
@@ -11,10 +11,10 @@ Base = declarative_base()
 
 class AlchemyDB():
 
-   username = 'amarrine_amarrin'
+   username = 'awbw'
    pwd      = passwd.db_passwd
    host     = 'localhost'
-   database = 'amarrine_awbw'
+   database = 'awbwFlask'
 
    engine   = None
    session  = None

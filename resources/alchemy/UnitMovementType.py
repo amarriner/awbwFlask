@@ -1,4 +1,4 @@
-#!/home1/amarrine/python/bin/python
+#!/usr/bin/env python
 
 from sqlalchemy import MetaData, Column, Integer, String
 from awbwFlask.resources.alchemy.AlchemyDB import Base

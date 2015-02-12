@@ -1,4 +1,4 @@
-#!/home1/amarrine/python/bin/python
+#!/usr/bin/env python
 
 from __future__ import print_function
 

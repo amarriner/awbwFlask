@@ -1,11 +1,8 @@
-#!/home1/amarrine/python/bin/python
+#!/usr/bin/env python
 
-import AlchemyDB, UnitType, User
+import AlchemyDB, CountryType
 
 adb = AlchemyDB.AlchemyDB()
 
-u = UnitType.UnitType()
-u.create_table(adb.engine)
-
-u = User.User()
+u = CountryType.CountryType()
 u.create_table(adb.engine)

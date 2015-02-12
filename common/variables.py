@@ -1,2 +1,2 @@
-#!/home1/amarrine/python/bin/projects
+#!/usr/bin/env python
 

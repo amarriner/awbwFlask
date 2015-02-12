@@ -1,4 +1,4 @@
-#!/home1/amarrine/python/bin/python
+#!/usr/bin/env python
 
 from sqlalchemy import ForeignKey, MetaData, Column, Integer, String
 from sqlalchemy.orm import relationship
