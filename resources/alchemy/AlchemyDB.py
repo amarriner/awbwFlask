@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql import select
 
+Base = declarative_base()
+
 class AlchemyDB():
 
    username = 'amarrine_amarrin'
@@ -21,6 +23,3 @@ class AlchemyDB():
       self.engine = create_engine('mysql+mysqldb://' + self.username + ':' + self.pwd + '@' + self.host + '/' + self.database, echo=True).connect()
 
       self.session = sessionmaker(bind=self.engine)()
-
-   def __del__(self):
-      self.engine.disconnect()

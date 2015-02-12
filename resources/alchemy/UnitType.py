@@ -1,11 +1,11 @@
 #!/home1/amarrine/python/bin/python
 
-from sqlalchemy import MetaData, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import ForeignKey, MetaData, Column, Integer, String
+from sqlalchemy.orm import relationship
+from awbwFlask.resources.alchemy.AlchemyDB import Base
+from awbwFlask.resources.alchemy.UnitMovementType import UnitMovementType
 
 import json
-
-Base = declarative_base()
 
 class UnitType(Base):
    __tablename__ = 'awbw_unit_types'
@@ -13,7 +13,8 @@ class UnitType(Base):
    id = Column(Integer, primary_key=True)
    name = Column(String(40), nullable=False)
    movement_points = Column(Integer, nullable=False)
-   movement_type = Column(String(1), nullable=False)
+   movement_type_id = Column(Integer, ForeignKey("awbw_unit_movement_types.id"))
+   movement_type = relationship("UnitMovementType")
    ammo = Column(Integer, nullable=False)
    vision = Column(Integer, nullable=False)
    short_range = Column(Integer, nullable=False)
@@ -37,7 +38,7 @@ class UnitType(Base):
          "id"              : self.id,
          "name"            : self.name,
          "movementPoints"  : self.movement_points if self.movement_points != None else '',
-         "movementType"    : self.movement_type if self.movement_type != None else '',
+         "movementType"    : self.movement_type.json() if self.movement_type != None else '',
          "ammo"            : self.ammo if self.ammo != None else '',
          "vision"          : self.vision if self.vision != None else '',
          "shortRange"      : self.short_range if self.short_range != None else '',
