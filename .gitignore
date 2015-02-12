@@ -4,3 +4,4 @@ passwd.py*
 keys.py*
 db.ini
 awbwFlask
+gunicorn.pid

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+GUNICORN=/usr/bin/gunicorn
+ROOT=/home/amarriner/python/awbwFlask
+PID=$ROOT/gunicorn.pid
+
+APP=api:app
+
+if [ -f $PID ]; then
+   kill `cat $PID`
+   rm $PID
+fi
+
+cd $ROOT
+
+. awbwFlask/bin/activate
+exec $GUNICORN -D -w 4 --pid=$PID $APP
+deactivate
