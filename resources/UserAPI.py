@@ -62,7 +62,7 @@ class User_ID_EP(restful.Resource):
       except InvalidId:
          return {'message': "Invalid ID {}".format(id)}, 400, headers
 
-      mongo.db.users.update({ '_id': ObjectId(id)}, { $set: { 'password': hash_password(args['password'])} })
+      # mongo.db.users.update({ '_id': ObjectId(id)}, { $set: { 'password': hash_password(args['password'])} })
       return bsonToJson(self.user), 200
 
 if __name__ == '__main__':

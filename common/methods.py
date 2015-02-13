@@ -15,15 +15,15 @@ def bsonToJson(bson):
 def hash_password(password):
    return pwd_context.encrypt(password)
 
-def verify_password(p1, p2):
-   return pwd_context.verify(p1, p2)
+def verify_password(plain_password, hashed_password):
+   return pwd_context.verify(plain_password, hashed_password)
 
 def generate_auth_token(user, expiration = 600):
    Config = ConfigParser.ConfigParser()
    Config.read('db.ini')
 
    s = Serializer(Config.get('Authorization', 'Secret'), expires_in = expiration)
-   return s.dumps({ "id": user.id, "username": user.username })
+   return s.dumps({ "_id": user['_id'], "username": user['username'] })
 
 def verify_auth_token(token):
    Config = ConfigParser.ConfigParser()
