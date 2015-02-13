@@ -14,7 +14,7 @@ from awbwFlask.resources.LoginAPI import Login_EP
 from awbwFlask.resources.TestData import TestData_EP, TestData_ID_EP
 
 api.add_resource(CountryType_EP, '/api/country-type')
-api.add_resource(CountryType_ID_EP, '/api/country-type/<int:id>')
+api.add_resource(CountryType_ID_EP, '/api/country-type/<string:id>')
 
 api.add_resource(UnitType_EP, '/api/unit-type')
 api.add_resource(UnitType_ID_EP, '/api/unit-type/<int:id>')
