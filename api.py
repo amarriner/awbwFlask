@@ -15,7 +15,7 @@ api.add_resource(CountryType_EP, '/api/country-type')
 api.add_resource(CountryType_ID_EP, '/api/country-type/<string:id>')
 
 api.add_resource(UnitType_EP, '/api/unit-type')
-api.add_resource(UnitType_ID_EP, '/api/unit-type/<int:id>')
+api.add_resource(UnitType_ID_EP, '/api/unit-type/<string:id>')
 
 api.add_resource(User_EP, '/api/user')
 api.add_resource(User_ID_EP, '/api/user/<int:id>')
