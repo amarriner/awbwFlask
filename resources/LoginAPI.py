@@ -5,6 +5,7 @@ from __future__ import print_function
 from flask.ext import restful
 
 from awbwFlask.common.AlchemyDB import adb
+from awbwFlask.common.variables import headers
 from awbwFlask.resources.alchemy.User import User
 
 class Login_EP(restful.Resource):
@@ -26,7 +27,7 @@ class Login_EP(restful.Resource):
          token_data = User.verify_auth_token(args['Awbw-Token'])
 
          if not token_data:
-            return {"message": "Invalid user token"}, 401
+            return {"message": "Invalid user token"}, 401, headers
  
          user = adb.session.query(User).get(token_data["id"])
          message = "Logged in with token"
@@ -36,10 +37,10 @@ class Login_EP(restful.Resource):
          user = adb.session.query(User).filter(User.username == args['username']).first()
 
          if not user:
-            return {"message": "Login with username {} does not exist".format(args['username'])}, 404
+            return {"message": "Login with username {} does not exist".format(args['username'])}, 404, headers
 
          if not user.verify_password(args['password']):
-            return {"message": "Invalid password for user {}".format(args['username'])}, 403
+            return {"message": "Invalid password for user {}".format(args['username'])}, 401, headers
 
          message = "Logged in with credentials"
 
