@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
 from flask.ext import restful
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 
-from awbwFlask.common.AlchemyDB import adb
-from awbwFlask.resources.alchemy.User import User
+from awbwFlask import mongo
+from awbwFlask.common.methods import bsonToJson, hash_password
+from awbwFlask.common.variables import headers
 
 class User_EP(restful.Resource):
 
@@ -16,17 +19,18 @@ class User_EP(restful.Resource):
    def post(self):
       args = self.reqparse.parse_args()
 
-      user = adb.session.query(User).filter(User.username == args['username'])
+      user = mongo.db.users.find_one({ 'username': args['username'] })
       if user:
-         restful.abort(400, message="User {} already exists".format(args['username']))
+         return {'message': "User {} already exists".format(args['username'])}, 400, headers
 
-      user = User(username=args['username'])
-      user.hash_password(args['password'])
-      
-      adb.session.add(user)
-      adb.session.commit()
+      user = {
+         'username': args['username'],
+         'password': hash_password(args['password'])
+      }
 
-      return user.json(), 201
+      mongo.db.users.insert(user)      
+
+      return {'message': "User {} created".format(args['username'])}, 201
 
 class User_ID_EP(restful.Resource):
 
@@ -34,24 +38,32 @@ class User_ID_EP(restful.Resource):
 
    def __init__(self):
       self.reqparse = restful.reqparse.RequestParser()
+      self.reqparse.add_argument('password', type=str, help='Invalid password (required)')
       super(User_ID_EP, self).__init__()
    
-   def abort_if_not_exists(self, id):
-      self.user = adb.session.query(User).get(id)
-      if not self.user:
-         restful.abort(404, message="User with ID {} does not exist".format(id))
-
    def get(self, id):
-      self.abort_if_not_exists(id)
+      
+      try:
+         self.user = mongo.db.users.find_one({ '_id': ObjectId(id) }, { 'password': False})
+         if not self.user:
+            return {'message': "User with ID {} does not exist".format(id)}, 404, headers
+      except InvalidId:
+         return {'message': "Invalid ID {}".format(id)}, 400, headers
 
-      return self.user.json(), 200
+      return bsonToJson(self.user), 200
 
    def put(self, id):
       args = self.reqparse.parse_args()
-      self.abort_if_not_exists(id)
 
-      adb.session.commit()
-      return self.user.json(), 200
+      try:
+         self.user = mongo.db.users.find_one({ '_id': ObjectId(id) }, { 'password': False})
+         if not self.user:
+            return {'message': "User with ID {} does not exist".format(id)}, 404, headers
+      except InvalidId:
+         return {'message': "Invalid ID {}".format(id)}, 400, headers
+
+      mongo.db.users.update({ '_id': ObjectId(id)}, { $set: { 'password': hash_password(args['password'])} })
+      return bsonToJson(self.user), 200
 
 if __name__ == '__main__':
    app.run(debug=True)
