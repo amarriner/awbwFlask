@@ -14,5 +14,5 @@ fi
 cd $ROOT
 
 . venv/bin/activate
-gunicorn -D -w 4 --log-file=gunicorn.log --log-level=debug --pid=$PID $APP
+gunicorn -D -w 4 --pid=$PID $APP
 deactivate
