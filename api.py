@@ -21,7 +21,7 @@ api.add_resource(User_EP, '/api/user')
 api.add_resource(User_ID_EP, '/api/user/<int:id>')
 
 api.add_resource(TerrainType_EP, '/api/terrain-type')
-api.add_resource(TerrainType_ID_EP, '/api/terrain-type/<int:id>')
+api.add_resource(TerrainType_ID_EP, '/api/terrain-type/<string:id>')
 
 api.add_resource(Login_EP, '/api/login')
 
